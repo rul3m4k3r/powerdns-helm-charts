@@ -5,9 +5,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
-{{- if eq .Values.admin.ingress.type "nginx" }}
+{{- if or (eq .Values.admin.ingress.type "nginx") (eq .Values.admin.ingress.annotations) }}
   annotations:
+  {{- if eq .Values.admin.ingress.type "nginx" }}
     kubernetes.io/ingress.class: {{ .Values.admin.ingress.class}}
+  {{- end }}
   {{- range .Values.admin.ingress.annotations }}
     {{ . }}
   {{- end }}
