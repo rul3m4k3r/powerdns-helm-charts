@@ -15,7 +15,7 @@ metadata:
   {{- end }}
 {{- end }}
 spec:
-{{- if eq .Values.admin.ingress.tls.enabled }}
+{{- if .Values.admin.ingress.tls.enabled }}
   tls:
   - hosts:
     - {{ .Values.admin.ingress.hostname }}.{{ .Values.domain }}
