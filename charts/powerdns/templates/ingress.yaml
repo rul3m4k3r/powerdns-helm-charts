@@ -5,15 +5,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
-{{- if eq .Values.admin.ingress.type "nginx" }}
+{{- if or (eq .Values.admin.ingress.type "nginx") .Values.admin.ingress.annotations }}
   annotations:
+  {{- if eq .Values.admin.ingress.type "nginx" }}
     kubernetes.io/ingress.class: {{ .Values.admin.ingress.class}}
+  {{- end }}
   {{- range .Values.admin.ingress.annotations }}
     {{ . }}
   {{- end }}
 {{- end }}
 spec:
-{{- if eq .Values.admin.ingress.tls.enabled }}
+{{- if .Values.admin.ingress.tls.enabled }}
   tls:
   - hosts:
     - {{ .Values.admin.ingress.hostname }}.{{ .Values.domain }}
